@@ -1,0 +1,70 @@
+@startuml
+class Puerto {
+    +id: int
+    +nombre: string
+    +latitud: float
+    +longitud: float
+    +puerto_agregar(): void
+    +puerto_modificar(): void
+    +puerto_eliminar(): void
+}
+class Empresa {
+    +id: int
+    +cuit: string
+    +nombre: string
+    +tipo: EmpresaTipo
+    +empresa_agregar(): void
+    +empresa_modificar(): void
+    +empresa_eliminar(): void
+}
+
+class Cereal {
+    +id: int
+    +nombre: string
+    +cereal_agregar(): void
+    +cereal_modificar(): void
+    +cereal_eliminar(): void
+}
+class Contrato{
+    +id: int
+    +puerto_id: Puerto
+    +empresa_id: Empresa
+    +cereal_id: Cereal
+    +regimen:string
+    +fecha_inicio: date
+    +fecha_fin: date
+    +cupos_diarios: int
+    +contrato_agregar(): void
+    +contrato_modificar(): void
+    +contrato_eliminar(): void
+}
+
+
+class Cupo{
+    +id: int
+    +contrato_id: Contrato
+    +fecha: date
+    +cantidad: int          
+    +cupo_generar(): void
+    +cupo_modificar(): void
+    +cupo_eliminar(): void
+}
+class Cupo_detalle{
+    +id: int
+    +cupo_id: Cupo
+    +cupo_string: string
+    +cupo_detalle_agregar(): void
+    +cupo_detalle_modificar(): void
+    +cupo_detalle_eliminar(): void
+}
+
+Contrato "1" -- "1" Puerto : pertenece a >
+
+Contrato "1" -- "1" Empresa : pertenece a >
+Contrato "1" -- "1" Cereal : tiene >
+
+Cupo "1" -- "0..*" Cupo_detalle : contiene >
+Cupo "1" -- "1" Contrato : pertenece a >
+
+
+@enduml
