@@ -1,0 +1,35 @@
+@startuml
+
+class User {
+    +id: int
+    +username: string
+    +email: string
+    +user_agregar(): void
+    +user_modificar(): void
+    +user_eliminar(): void
+}
+
+class Item {
+    +id: int
+    +title: string
+    +description: string
+    +item_agregar(): void
+    +item_modificar(): void
+    +item_eliminar(): void
+}
+
+class User_Item_Relation {
+    +user_id: int
+    +item_id: int
+    +user_item_relation_agregar(): void
+    +user_item_relation_modificar(): void
+    +user_item_relation_eliminar(): void
+}
+
+User "1" -- "*" User_Item_Relation : has >
+Item "1" -- "*" User_Item_Relation : has >
+
+Puerto "1" -- "*" User : has > 
+
+
+@enduml

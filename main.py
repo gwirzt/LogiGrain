@@ -2,10 +2,12 @@
 from fastapi import FastAPI, HTTPException
 from sqlmodel import Session, create_engine, SQLModel, Field
 from typing import List
-from models import User, Item
+from Modelos.usuario import User, Item,User_Item_Relation
 
 # Configuración de la base de datos
+
 DATABASE_URL = "sqlite:///database.db"  # Cambia esto según tu base de datos
+
 engine = create_engine(DATABASE_URL)
 
 # Crear la aplicación FastAPI
