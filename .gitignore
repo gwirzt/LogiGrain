@@ -1,11 +1,13 @@
 # Entorno virtual de Python
 # Ignora cualquier carpeta llamada 'venv' en cualquier parte del proyecto.
 venv/
-
+#archivos SSL y Certificados
+Ssl/
 # Archivo de entorno con secretos
 # Ignora cualquier archivo llamado .env en cualquier parte del proyecto.
 .env
 .pdf
+.docx
 
 # Archivos de caché y compilados de Python
 __pycache__/
