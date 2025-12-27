@@ -1,0 +1,24 @@
+2025-12-24 15:10:24 - api - INFO - Iniciando solicitud de Access Ticket ARCA
+2025-12-24 15:10:24 - api - INFO - Configuración ARCA: servicio=wscpe
+2025-12-24 15:10:24 - arca - INFO - Iniciando autenticación ARCA para servicio: wscpe
+2025-12-24 15:10:24 - arca - INFO - Validación de certificados completada
+2025-12-24 15:10:24 - arca - INFO - Creando TRA para servicio: wscpe
+2025-12-24 15:10:24 - arca - INFO - TRA XML generado exitosamente
+2025-12-24 15:10:24 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-24 15:10:24 - arca - INFO - Cargando certificados SSL: Ssl/Nacion1846_1b31e8cd3180840d.crt, Ssl/MiClavePrivada.key
+2025-12-24 15:10:24 - arca - INFO - Certificados SSL cargados exitosamente
+2025-12-24 15:10:24 - arca - ERROR - Error inesperado en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
+2025-12-24 15:10:24 - api - ERROR - Error en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
+2025-12-24 15:10:24 - api - ERROR - Error inesperado en endpoint /get-ticket: 500: {'error': "module 'OpenSSL.crypto' has no attribute 'PKCS7'", 'details': 'Error inesperado en la autenticación ARCA', 'suggestion': 'Verificar certificados SSL y conectividad con AFIP'}
+2025-12-24 15:13:17 - api - INFO - Iniciando solicitud de Access Ticket ARCA
+2025-12-24 15:13:17 - api - INFO - Configuración ARCA: servicio=wscpe
+2025-12-24 15:13:17 - arca - INFO - Iniciando autenticación ARCA para servicio: wscpe
+2025-12-24 15:13:17 - arca - INFO - Validación de certificados completada
+2025-12-24 15:13:17 - arca - INFO - Creando TRA para servicio: wscpe
+2025-12-24 15:13:17 - arca - INFO - TRA XML generado exitosamente
+2025-12-24 15:13:17 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-24 15:13:17 - arca - INFO - Cargando certificados SSL: C:\pythonDev\LogiGrain\Ssl\Nacion1846_1b31e8cd3180840d.crt, C:\pythonDev\LogiGrain\Ssl\MiClavePrivada.key
+2025-12-24 15:13:17 - arca - INFO - Certificados SSL cargados exitosamente
+2025-12-24 15:13:17 - arca - ERROR - Error inesperado en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
+2025-12-24 15:13:17 - api - ERROR - Error en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
+2025-12-24 15:13:17 - api - ERROR - Error inesperado en endpoint /get-ticket: 500: {'error': "module 'OpenSSL.crypto' has no attribute 'PKCS7'", 'details': 'Error inesperado en la autenticación ARCA', 'suggestion': 'Verificar certificados SSL y conectividad con AFIP'}

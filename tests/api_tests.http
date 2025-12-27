@@ -1,0 +1,27 @@
+### LogiGrain - Pruebas API ARCA/AFIP WSAA
+
+## 1. Endpoint raíz - Información del sistema
+GET http://127.0.0.1:8000/
+Content-Type: application/json
+
+###
+
+## 2. Health Check
+GET http://127.0.0.1:8000/health
+Content-Type: application/json
+
+###
+
+## 3. Obtener Access Ticket de ARCA/AFIP
+GET http://127.0.0.1:8000/get-ticket
+Content-Type: application/json
+
+###
+
+## 4. Documentación automática Swagger
+# Abre en navegador: http://127.0.0.1:8000/docs
+
+###
+
+## 5. Redoc API Documentation  
+# Abre en navegador: http://127.0.0.1:8000/redoc
