@@ -1,27 +1,51 @@
 ### LogiGrain - Pruebas API ARCA/AFIP WSAA
 
 ## 1. Endpoint raíz - Información del sistema
-GET http://127.0.0.1:8000/
+GET http://127.0.0.1:8080/
 Content-Type: application/json
 
 ###
 
 ## 2. Health Check
-GET http://127.0.0.1:8000/health
+GET http://127.0.0.1:8080/health
 Content-Type: application/json
 
 ###
 
-## 3. Obtener Access Ticket de ARCA/AFIP
-GET http://127.0.0.1:8000/get-ticket
+## 3. Diagnóstico de certificados SSL
+GET http://127.0.0.1:8080/diagnose-certs
 Content-Type: application/json
 
 ###
 
-## 4. Documentación automática Swagger
-# Abre en navegador: http://127.0.0.1:8000/docs
+## 4. Obtener Access Ticket CPE - Cartas de Porte Electrónica
+GET http://127.0.0.1:8080/get-ticket-cpe
+Content-Type: application/json
 
 ###
 
-## 5. Redoc API Documentation  
-# Abre en navegador: http://127.0.0.1:8000/redoc
+## 5. Obtener Access Ticket EMBARQUES - Comunicaciones de Embarques
+GET http://127.0.0.1:8080/get-ticket-embarques
+Content-Type: application/json
+
+###
+
+## 6. Obtener Access Ticket FACTURACIÓN - Facturación Electrónica
+GET http://127.0.0.1:8080/get-ticket-facturacion
+Content-Type: application/json
+
+###
+
+## 7. Información del sistema
+GET http://127.0.0.1:8080/system-info
+Content-Type: application/json
+
+###
+
+## 8. Documentación automática Swagger
+# Abre en navegador: http://127.0.0.1:8080/docs
+
+###
+
+## 9. Redoc API Documentation  
+# Abre en navegador: http://127.0.0.1:8080/redoc

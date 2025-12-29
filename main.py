@@ -1,33 +1,62 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBearer
+from sqlmodel import SQLModel, create_engine, Session, select
+from jose import JWTError, jwt
+from datetime import datetime, timedelta
 from Arca.wsaa import ArcaSettings, get_arca_access_ticket
-import datetime
 import os
 from pathlib import Path
 from dotenv import load_dotenv
 import uvicorn
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
-# Importar routers de cada sector
-from Playa_Camiones.routes import router as playa_router
-from Porteria_Ingreso.routes import router as ingreso_router  
-from Porteria_Egreso.routes import router as egreso_router
-from Calada.routes import router as calada_router
-from Balanzas.routes import router as balanzas_router
+# Modelos de datos
+from Modelos.usuario import (
+    Usuario, Puerto, UsuarioPuerto, 
+    UsuarioLogin, LoginResponse, UsuarioResponse, PuertoResponse
+)
 
 # Cargar variables de entorno
 load_dotenv()
 
-# Logging
-import logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+# Logging centralizado
+from utils.logger import setup_logger
+logger = setup_logger('main')
 
-# Configurar handler si no existe
-if not logger.handlers:
-    handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
+# Configuración de base de datos SQLite
+DATABASE_URL = "sqlite:///./logigrain.db"
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
+def create_db_and_tables():
+    """Crear base de datos y tablas si no existen"""
+    try:
+        SQLModel.metadata.create_all(engine, checkfirst=True)
+    except Exception as e:
+        logger.warning(f"Las tablas ya existen o hay un problema menor: {e}")
+
+def get_session():
+    """Dependency para obtener sesión de base de datos"""
+    with Session(engine) as session:
+        yield session
+
+# Configuración JWT
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "logigrain-secret-key-change-in-production")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 480  # 8 horas
+
+security = HTTPBearer()
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    """Crear token JWT"""
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
 
 app = FastAPI(
     title="LogiGrain - Terminal Portuaria",
@@ -35,15 +64,129 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Registrar routers de cada sector
-app.include_router(playa_router)
-app.include_router(ingreso_router)
-app.include_router(egreso_router) 
-app.include_router(calada_router)
-app.include_router(balanzas_router)
+# Crear tablas al iniciar
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
+    logger.info("Base de datos y tablas creadas")
 
 # Obtener ruta base del proyecto
 BASE_DIR = Path(__file__).parent.absolute()
+
+# === ENDPOINTS DE AUTENTICACIÓN === #
+
+@app.post("/login", response_model=LoginResponse)
+async def login(
+    user_credentials: UsuarioLogin, 
+    session: Session = Depends(get_session)
+):
+    """
+    Endpoint de login con JSON en body.
+    Retorna token JWT y lista de puertos del usuario.
+    """
+    logger.info(f"Intento de login para usuario: {user_credentials.username}")
+    
+    try:
+        # Buscar usuario por username
+        statement = select(Usuario).where(Usuario.username == user_credentials.username)
+        usuario = session.exec(statement).first()
+        
+        if not usuario:
+            logger.warning(f"Usuario no encontrado: {user_credentials.username}")
+            raise HTTPException(
+                status_code=401, 
+                detail="Credenciales inválidas"
+            )
+        
+        # Verificar contraseña
+        if not usuario.verify_password(user_credentials.password):
+            logger.warning(f"Contraseña incorrecta para usuario: {user_credentials.username}")
+            raise HTTPException(
+                status_code=401,
+                detail="Credenciales inválidas"
+            )
+        
+        # Verificar que el usuario esté habilitado
+        if not usuario.habilitado:
+            logger.warning(f"Usuario deshabilitado: {user_credentials.username}")
+            raise HTTPException(
+                status_code=403,
+                detail="Usuario deshabilitado"
+            )
+        
+        # Obtener puertos del usuario
+        statement_puertos = select(UsuarioPuerto, Puerto).join(Puerto).where(
+            UsuarioPuerto.usuario_id == usuario.id,
+            UsuarioPuerto.habilitado == True,
+            Puerto.habilitado == True
+        )
+        resultados = session.exec(statement_puertos).all()
+        
+        if not resultados:
+            logger.warning(f"Usuario sin puertos asignados: {user_credentials.username}")
+            raise HTTPException(
+                status_code=403,
+                detail="Usuario sin puertos asignados"
+            )
+        
+        # Construir lista de puertos
+        puertos = [
+            PuertoResponse(
+                id=puerto.id,
+                nombre=puerto.nombre,
+                codigo=puerto.codigo,
+                descripcion=puerto.descripcion,
+                ubicacion=puerto.ubicacion,
+                habilitado=puerto.habilitado
+            ) for _, puerto in resultados
+        ]
+        
+        # Actualizar último acceso
+        usuario.ultimo_acceso = datetime.utcnow()
+        session.add(usuario)
+        session.commit()
+        
+        # Crear token JWT
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        token_data = {
+            "sub": usuario.username,
+            "user_id": usuario.id,
+            "is_admin": usuario.es_admin,
+            "puertos": [p.codigo for p in puertos]
+        }
+        access_token = create_access_token(
+            data=token_data, 
+            expires_delta=access_token_expires
+        )
+        
+        logger.info(f"Login exitoso para usuario: {user_credentials.username}")
+        
+        return LoginResponse(
+            usuario=UsuarioResponse(
+                id=usuario.id,
+                username=usuario.username,
+                nombre_completo=usuario.nombre_completo,
+                email=usuario.email,
+                habilitado=usuario.habilitado,
+                es_admin=usuario.es_admin,
+                fecha_creacion=usuario.fecha_creacion,
+                ultimo_acceso=usuario.ultimo_acceso
+            ),
+            puertos=puertos,
+            token=access_token,
+            mensaje=f"Login exitoso. Acceso a {len(puertos)} puerto(s)."
+        )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error inesperado en login: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail="Error interno del servidor"
+        )
+
+# === ENDPOINTS PRINCIPALES === #
 
 @app.get("/")
 async def root():
@@ -52,40 +195,9 @@ async def root():
         "sistema": "LogiGrain - Terminal Portuaria",
         "version": "1.0.0",
         "descripcion": "Sistema integral de gestión para terminal portuaria",
-        "sectores_operativos": [
-            {
-                "id": 1,
-                "nombre": "Playa de Camiones",
-                "endpoint": "/playa-camiones",
-                "descripcion": "Recepción, validación ARCA, facturación"
-            },
-            {
-                "id": 3,
-                "nombre": "Portería Ingreso", 
-                "endpoint": "/porteria-ingreso",
-                "descripcion": "Control de acceso, verificación documental"
-            },
-            {
-                "id": 5,
-                "nombre": "Calada",
-                "endpoint": "/calada", 
-                "descripcion": "Inspección, análisis calidad, clasificación"
-            },
-            {
-                "id": 7-9,
-                "nombre": "Balanzas",
-                "endpoint": "/balanzas",
-                "descripcion": "Registro pesos bruto/tara, cálculo neto"
-            },
-            {
-                "id": 10,
-                "nombre": "Portería Egreso",
-                "endpoint": "/porteria-egreso",
-                "descripcion": "Control egreso, cierre carta porte"
-            }
-        ],
+        "estado": "Configuración base - Integración ARCA/AFIP activa",
+        "sectores_operativos": "En desarrollo - Estructura por definir",
         "servicios_arca": [
-            "/get-ticket - Token ARCA (CPE por defecto)",
             "/get-ticket-cpe - Token Cartas de Porte Electrónica", 
             "/get-ticket-embarques - Token Comunicaciones de Embarques",
             "/get-ticket-facturacion - Token Facturación Electrónica"
@@ -96,58 +208,6 @@ async def root():
             "/docs - Documentación Swagger"
         ]
     }
-
-
-@app.get("/get-ticket")
-async def get_arca_access_ticket_endpoint():
-    """
-    Obtiene el Access Ticket de ARCA/AFIP (CPE por defecto).
-    
-    Servicio: Cartas de Porte Electrónica
-    Utiliza configuración desde .env sin parámetros requeridos.
-    """
-    logger.info("Iniciando solicitud de Access Ticket ARCA - CPE")
-    
-    try:
-        # Ejecutar flujo completo sin parámetros (usa .env automáticamente)
-        result = get_arca_access_ticket()
-        
-        if result['success']:
-            logger.info("Access Ticket ARCA obtenido exitosamente")
-            return {
-                "status": "success",
-                "message": "Access Ticket obtenido correctamente de ARCA/AFIP",
-                "data": {
-                    "token": result['token'],
-                    "sign": result['sign'],
-                    "service": result['service'],
-                    "service_type": result['service_type'],
-                    "environment": result['environment'],
-                    "timestamp": result['timestamp'],
-                    "valid_for": "24 horas desde generación"
-                }
-            }
-        else:
-            logger.error(f"Error en autenticación ARCA: {result['error']}")
-            raise HTTPException(
-                status_code=500, 
-                detail={
-                    "error": result['error'],
-                    "details": result['details'],
-                    "suggestion": "Verificar certificados SSL y conectividad con AFIP"
-                }
-            )
-            
-    except Exception as e:
-        logger.error(f"Error inesperado en endpoint /get-ticket: {str(e)}")
-        raise HTTPException(
-            status_code=500,
-            detail={
-                "error": f"Error inesperado en autenticación ARCA: {str(e)}",
-                "details": "Error interno del servidor",
-                "suggestion": "Contactar al administrador del sistema"
-            }
-        )
 
 
 @app.get("/get-ticket-cpe")

@@ -12,17 +12,13 @@ from cryptography.hazmat.primitives import serialization
 from zeep import Client, Settings
 from lxml import etree 
 
-# Logging
-import logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-# Configurar handler si no existe
-if not logger.handlers:
-    handler = logging.StreamHandler()
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    handler.setFormatter(formatter)
-    logger.addHandler(handler) 
+# Logging centralizado
+import sys
+import os
+# Agregar directorio padre al path para importar utils
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+from utils.logger import setup_logger
+logger = setup_logger('arca') 
 
 # --- CONFIGURACIÓN ---
 # Puedes cambiar esta constante. Se recomienda GMT-3 (Argentina).

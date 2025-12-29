@@ -3,14 +3,16 @@ Script para probar la configuración ARCA desde variables de entorno
 """
 
 import os
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 
+# Agregar directorio padre al path para importar módulos
+BASE_DIR = Path(__file__).parent.parent.absolute()
+sys.path.append(str(BASE_DIR))
+
 # Cargar variables de entorno
 load_dotenv()
-
-# Obtener ruta base del proyecto
-BASE_DIR = Path(__file__).parent.absolute()
 
 print("=== Configuración ARCA desde .env ===")
 print(f"BASE_DIR: {BASE_DIR}")

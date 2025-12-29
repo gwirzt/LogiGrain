@@ -1,0 +1,84 @@
+### LogiGrain - Pruebas de Login
+### Endpoint de autenticación multipuerto
+
+## Variables
+@baseUrl = http://127.0.0.1:8080
+
+## 1. Login exitoso con admin (acceso a todos los puertos)
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+###
+
+## 2. Login con operador1 (acceso limitado a TRP1 y TRP2)
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "username": "operador1",
+    "password": "op123"
+}
+
+###
+
+## 3. Login con supervisor (acceso a TRP2 y TSL1)
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "username": "supervisor", 
+    "password": "super123"
+}
+
+###
+
+## 4. Login con gerente (solo acceso a TSL1)
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "username": "gerente",
+    "password": "ger123"
+}
+
+###
+
+## 5. Credenciales incorrectas (debe fallar)
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "wrongpassword"
+}
+
+###
+
+## 6. Usuario inexistente (debe fallar)
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "username": "noexiste",
+    "password": "cualquiera"
+}
+
+###
+
+## 7. Verificar documentación Swagger del nuevo endpoint
+GET {{baseUrl}}/docs
+
+###
+
+## 8. Health check (debe seguir funcionando)
+GET {{baseUrl}}/health
+
+###
+
+## 9. Información del sistema actualizada
+GET {{baseUrl}}/

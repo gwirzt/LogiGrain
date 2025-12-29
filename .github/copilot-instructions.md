@@ -12,6 +12,14 @@
 - **Modelos de Datos** ([Modelos/usuario.py](Modelos/usuario.py)) - Esquemas SQLModel para usuarios, items y relaciones
 - **Gestión SSL** ([Ssl/](Ssl/)) - Certificados SSL específicos por servicio ARCA
 
+## Estructura y login
+- **Multipuerto**: el sistema sera multipuerto, ya que la emrpesa tiene mas que una terminal portuaria. por ende todas las acciones deben determinar a que puerto/terminal pertenecen.
+- **Endpoints** para acceder a las funcionalidades del sistema, debera pasar un previo login que valide el usuario y puerto al que pertenece. un usuario puede pertenecer a mas de un puerto.
+- ** Token JWT**: una vez validado el usuario, se le entregara un token JWT que debera ser enviado en cada request para validar su identidad y permisos , enviado dentro de un json body con mas los parametros que se necesiten para cada endpoint y para cada puerto, por ejemplo ingreso de un camion deberia tener el id del puerto al que pertenece el usuario y el camion.
+  
+
+
+
 ## Flujo Operativo y Sectores
 
 El sistema modela **10 sectores operativos** conectados siguiendo el flujo físico de camiones:
@@ -46,6 +54,16 @@ User_Item_Relation(SQLModel, table=True):
     
 User.items = Relationship(back_populates="user", link_model=User_Item_Relation)
 ```
+### Sistema de Logs
+- **Configuración centralizada** en [utils/logger.py](utils/logger.py) con rotación automática
+- **Rotación de archivos**: 5MB por archivo, mantiene 10 archivos históricos
+- **Logging dual**: Consola + archivo [logs/logigrain.log](logs/logigrain.log)
+- **Logger 'main'**: Operaciones API, endpoints, diagnósticos
+- **Logger 'arca'**: Operaciones ARCA/AFIP completas (certificados, TRA, tokens)
+- **Documentación completa**: [logs/README.md](logs/README.md)
+- Toda operación que se produzca en el sistema, login, logout, errores, etc debe quedar registrada en los logs
+
+
 
 ### Convenciones de Naming
 - **Español para campos de negocio**: `nombre_completo`, `habilitado`, `regimen`  
@@ -67,11 +85,12 @@ pip install fastapi uvicorn pyopenssl cryptography zeep lxml sqlmodel python-dot
 ### Testing HTTP
 - **API corriendo en**: `http://127.0.0.1:8080` (puerto actualizado)
 - **Endpoints disponibles**:
-  - `GET /get-ticket` - Token ARCA (CPE por defecto)
   - `GET /get-ticket-cpe` - Token Cartas de Porte Electrónica
   - `GET /get-ticket-embarques` - Token Comunicaciones de Embarques
   - `GET /get-ticket-facturacion` - Token Facturación Electrónica
   - `GET /diagnose-certs` - Diagnóstico certificados SSL multi-servicio
+  - `GET /health` - Verificación de salud del sistema
+  - `GET /system-info` - Información completa del sistema
   - `GET /docs` - Documentación Swagger automática
 - **Validar respuesta**: `"status": "success"` con datos específicos del servicio
 
@@ -116,7 +135,8 @@ Al trabajar con este proyecto, prioriza la **trazabilidad de estados** y **integ
 
 ### ✅ Completado
 - **ARCA Multi-Servicio**: 3 servicios implementados (CPE, EMBARQUES, FACTURACION)
-- **Endpoints FastAPI**: 7 endpoints funcionales en puerto 8080
+- **Endpoints FastAPI**: 6 endpoints específicos funcionales en puerto 8080
+- **Sistema de Logging**: Rotación automática (5MB, 10 archivos), loggers centralizados
 - **Configuración .env**: Variables por servicio, funciones parameterless
 - **Certificados SSL**: Validación y carga automática por servicio
 - **OpenSSL CLI**: Firma CMS compatible con protocolo AFIP

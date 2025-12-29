@@ -3,14 +3,16 @@ Script de prueba simple para verificar los certificados SSL.
 """
 
 import os
+import sys
 from pathlib import Path
 
-# Obtener ruta base del proyecto
-BASE_DIR = Path(__file__).parent.absolute()
+# Agregar directorio padre al path para importar módulos
+BASE_DIR = Path(__file__).parent.parent.absolute()
+sys.path.append(str(BASE_DIR))
 
-# Configuración
-CERT_FILE = str(BASE_DIR / "Ssl" / "Nacion1846_1b31e8cd3180840d.crt")
-KEY_FILE = str(BASE_DIR / "Ssl" / "MiClavePrivada.key")
+# Configuración - usar rutas relativas desde el directorio raíz
+CERT_FILE = str(BASE_DIR / "Ssl" / "cert" / "Nacion1846_1b31e8cd3180840d.crt")
+KEY_FILE = str(BASE_DIR / "Ssl" / "cert" / "MiClavePrivada.key")
 
 print("=== Diagnóstico de Certificados SSL ===")
 print(f"Base Directory: {BASE_DIR}")

@@ -1,24 +1,53 @@
-2025-12-24 15:10:24 - api - INFO - Iniciando solicitud de Access Ticket ARCA
-2025-12-24 15:10:24 - api - INFO - Configuración ARCA: servicio=wscpe
-2025-12-24 15:10:24 - arca - INFO - Iniciando autenticación ARCA para servicio: wscpe
-2025-12-24 15:10:24 - arca - INFO - Validación de certificados completada
-2025-12-24 15:10:24 - arca - INFO - Creando TRA para servicio: wscpe
-2025-12-24 15:10:24 - arca - INFO - TRA XML generado exitosamente
-2025-12-24 15:10:24 - arca - INFO - Firmando TRA con certificados SSL...
-2025-12-24 15:10:24 - arca - INFO - Cargando certificados SSL: Ssl/Nacion1846_1b31e8cd3180840d.crt, Ssl/MiClavePrivada.key
-2025-12-24 15:10:24 - arca - INFO - Certificados SSL cargados exitosamente
-2025-12-24 15:10:24 - arca - ERROR - Error inesperado en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
-2025-12-24 15:10:24 - api - ERROR - Error en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
-2025-12-24 15:10:24 - api - ERROR - Error inesperado en endpoint /get-ticket: 500: {'error': "module 'OpenSSL.crypto' has no attribute 'PKCS7'", 'details': 'Error inesperado en la autenticación ARCA', 'suggestion': 'Verificar certificados SSL y conectividad con AFIP'}
-2025-12-24 15:13:17 - api - INFO - Iniciando solicitud de Access Ticket ARCA
-2025-12-24 15:13:17 - api - INFO - Configuración ARCA: servicio=wscpe
-2025-12-24 15:13:17 - arca - INFO - Iniciando autenticación ARCA para servicio: wscpe
-2025-12-24 15:13:17 - arca - INFO - Validación de certificados completada
-2025-12-24 15:13:17 - arca - INFO - Creando TRA para servicio: wscpe
-2025-12-24 15:13:17 - arca - INFO - TRA XML generado exitosamente
-2025-12-24 15:13:17 - arca - INFO - Firmando TRA con certificados SSL...
-2025-12-24 15:13:17 - arca - INFO - Cargando certificados SSL: C:\pythonDev\LogiGrain\Ssl\Nacion1846_1b31e8cd3180840d.crt, C:\pythonDev\LogiGrain\Ssl\MiClavePrivada.key
-2025-12-24 15:13:17 - arca - INFO - Certificados SSL cargados exitosamente
-2025-12-24 15:13:17 - arca - ERROR - Error inesperado en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
-2025-12-24 15:13:17 - api - ERROR - Error en autenticación ARCA: module 'OpenSSL.crypto' has no attribute 'PKCS7'
-2025-12-24 15:13:17 - api - ERROR - Error inesperado en endpoint /get-ticket: 500: {'error': "module 'OpenSSL.crypto' has no attribute 'PKCS7'", 'details': 'Error inesperado en la autenticación ARCA', 'suggestion': 'Verificar certificados SSL y conectividad con AFIP'}
+2025-12-29 18:49:43 - main - INFO - Solicitud token CPE
+2025-12-29 18:49:43 - arca - INFO - Iniciando autenticación ARCA - Tipo: 'CPE', Entorno: ''
+2025-12-29 18:49:43 - arca - INFO - Configuración obtenida: servicio=wscpe, cert=C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt
+2025-12-29 18:49:43 - arca - INFO - Validación de certificados completada
+2025-12-29 18:49:43 - arca - INFO - Creando TRA para servicio: wscpe
+2025-12-29 18:49:43 - arca - INFO - TRA XML generado exitosamente
+2025-12-29 18:49:43 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-29 18:49:43 - arca - INFO - Firmando TRA con OpenSSL CLI (método VFP)
+2025-12-29 18:49:43 - arca - INFO - Usando OpenSSL: C:\pythonDev\LogiGrain\Ssl\openssl.exe
+2025-12-29 18:49:43 - arca - INFO - Escribiendo TRA a: C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml
+2025-12-29 18:49:43 - arca - INFO - Ejecutando: C:\pythonDev\LogiGrain\Ssl\openssl.exe cms -sign -in C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml -out C:\pythonDev\LogiGrain\Ssl\TEMP\MiLoginTicketRequest.xml.cms -signer C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt -inkey C:\pythonDev\LogiGrain\Ssl\cert\MiClavePrivada.key -nodetach -outform PEM
+2025-12-29 18:49:43 - arca - INFO - OpenSSL ejecutado exitosamente
+2025-12-29 18:49:43 - arca - INFO - CMS generado, longitud original: 2399
+2025-12-29 18:49:43 - arca - INFO - CMS limpiado, longitud final: 2324
+2025-12-29 18:49:43 - arca - INFO - TRA firmado exitosamente con CMS
+2025-12-29 18:49:43 - arca - INFO - Llamando WSAA: https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL
+2025-12-29 18:49:44 - arca - INFO - Respuesta WSAA recibida exitosamente
+2025-12-29 18:49:44 - arca - INFO - Token y Sign extraídos exitosamente de respuesta WSAA
+2025-12-29 18:49:44 - arca - INFO - Autenticación ARCA completada exitosamente
+2025-12-29 19:00:56 - main - INFO - Solicitud token EMBARQUES
+2025-12-29 19:00:56 - arca - INFO - Iniciando autenticación ARCA - Tipo: 'EMBARQUES', Entorno: ''
+2025-12-29 19:00:56 - arca - INFO - Configuración obtenida: servicio=wconscomunicacionembarque, cert=C:\pythonDev\LogiGrain\Ssl\cert\CODE_26e5bc7f203c9970.crt
+2025-12-29 19:00:56 - arca - INFO - Validación de certificados completada
+2025-12-29 19:00:56 - arca - INFO - Creando TRA para servicio: wconscomunicacionembarque
+2025-12-29 19:00:56 - arca - INFO - TRA XML generado exitosamente
+2025-12-29 19:00:56 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-29 19:00:56 - arca - INFO - Firmando TRA con OpenSSL CLI (método VFP)
+2025-12-29 19:00:56 - arca - INFO - Usando OpenSSL: C:\pythonDev\LogiGrain\Ssl\openssl.exe
+2025-12-29 19:00:56 - arca - INFO - Escribiendo TRA a: C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml
+2025-12-29 19:00:56 - arca - INFO - Ejecutando: C:\pythonDev\LogiGrain\Ssl\openssl.exe cms -sign -in C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml -out C:\pythonDev\LogiGrain\Ssl\TEMP\MiLoginTicketRequest.xml.cms -signer C:\pythonDev\LogiGrain\Ssl\cert\CODE_26e5bc7f203c9970.crt -inkey C:\pythonDev\LogiGrain\Ssl\cert\code.key -nodetach -outform PEM
+2025-12-29 19:00:56 - arca - INFO - OpenSSL ejecutado exitosamente
+2025-12-29 19:00:56 - arca - INFO - CMS generado, longitud original: 2419
+2025-12-29 19:00:56 - arca - INFO - CMS limpiado, longitud final: 2344
+2025-12-29 19:00:56 - arca - INFO - TRA firmado exitosamente con CMS
+2025-12-29 19:00:56 - arca - INFO - Llamando WSAA: https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL
+2025-12-29 19:00:56 - arca - INFO - Respuesta WSAA recibida exitosamente
+2025-12-29 19:00:56 - arca - INFO - Token y Sign extraídos exitosamente de respuesta WSAA
+2025-12-29 19:00:56 - arca - INFO - Autenticación ARCA completada exitosamente
+2025-12-29 19:25:41 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:26:06 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:26:06 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:49:08 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:49:08 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:49:17 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:49:39 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:50:16 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:51:44 - main - INFO - Base de datos y tablas creadas
+2025-12-29 19:52:43 - main - INFO - Intento de login para usuario: admin
+2025-12-29 19:52:43 - main - INFO - Login exitoso para usuario: admin
+2025-12-29 19:52:43 - main - INFO - Intento de login para usuario: operador1
+2025-12-29 19:52:43 - main - INFO - Login exitoso para usuario: operador1
+2025-12-29 19:52:43 - main - INFO - Intento de login para usuario: admin
+2025-12-29 19:52:43 - main - WARNING - Contraseña incorrecta para usuario: admin

@@ -35,23 +35,13 @@ def test_endpoint(url, endpoint_name):
     except Exception as e:
         print(f"❌ Error inesperado: {e}")
 
-if __name__ == "__main__":
-    base_url = "http://127.0.0.1:8000"
-    
-    # Esperar un poco para que el servidor inicie
-    print("Esperando que el servidor inicie...")
-    time.sleep(3)
-    
-    # Probar endpoints
-    test_endpoint(f"{base_url}/", "Endpoint Raíz")
-    test_endpoint(f"{base_url}/health", "Health Check")
-    test_endpoint(f"{base_url}/diagnose-certs", "Diagnóstico de Certificados")
-    
-    # Probar endpoint principal (puede tardar más por la conexión SSL)
-    print("\n=== Probando Get ARCA Token ===")
+def test_arca_endpoint(url, endpoint_name):
+    """Prueba un endpoint de ARCA específico"""
+    print(f"\n=== Probando {endpoint_name} ===")
     print("⚠️  Este endpoint puede tardar más tiempo por la conexión con AFIP...")
+    
     try:
-        response = requests.get(f"{base_url}/get-ticket", timeout=30)
+        response = requests.get(url, timeout=30)
         print(f"Status Code: {response.status_code}")
         
         if response.status_code == 200:
@@ -72,6 +62,23 @@ if __name__ == "__main__":
                 print("Response:", response.text)
                 
     except Exception as e:
-        print(f"❌ Error en get-ticket: {e}")
+        print(f"❌ Error en {endpoint_name}: {e}")
+
+if __name__ == "__main__":
+    base_url = "http://127.0.0.1:8081"  # Puerto actualizado
+    
+    # Esperar un poco para que el servidor inicie
+    print("Esperando que el servidor inicie...")
+    time.sleep(3)
+    
+    # Probar endpoints básicos
+    test_endpoint(f"{base_url}/", "Endpoint Raíz")
+    test_endpoint(f"{base_url}/health", "Health Check")
+    test_endpoint(f"{base_url}/diagnose-certs", "Diagnóstico de Certificados")
+    
+    # Probar endpoints ARCA específicos
+    test_arca_endpoint(f"{base_url}/get-ticket-cpe", "Token CPE")
+    test_arca_endpoint(f"{base_url}/get-ticket-embarques", "Token EMBARQUES")
+    test_arca_endpoint(f"{base_url}/get-ticket-facturacion", "Token FACTURACIÓN")
     
     print("\n=== Pruebas completadas ===")

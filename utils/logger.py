@@ -5,18 +5,20 @@ Centraliza el manejo de logs para ARCA/AFIP y operaciones del sistema.
 
 import logging
 import sys
+import os
 from datetime import datetime
+from logging.handlers import RotatingFileHandler
 
 def setup_logger(name: str, level: str = "INFO") -> logging.Logger:
     """
-    Configura un logger para el sistema LogiGrain.
+    Configura un logger para el sistema LogiGrain con rotación de archivos.
     
     Args:
         name: Nombre del logger (ej: 'arca', 'main', 'operations')
         level: Nivel de logging ('DEBUG', 'INFO', 'WARNING', 'ERROR')
     
     Returns:
-        Logger configurado
+        Logger configurado con rotación de archivos
     """
     logger = logging.getLogger(name)
     
@@ -37,15 +39,20 @@ def setup_logger(name: str, level: str = "INFO") -> logging.Logger:
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)
         
-        # Handler para archivo (logs/logigrain.log)
+        # Handler para archivo con rotación
         try:
-            import os
             os.makedirs("logs", exist_ok=True)
-            file_handler = logging.FileHandler("logs/logigrain.log", encoding='utf-8')
+            # Rotación: 5MB por archivo, mantener 10 archivos históricos
+            file_handler = RotatingFileHandler(
+                "logs/logigrain.log", 
+                maxBytes=5*1024*1024,  # 5MB
+                backupCount=10,
+                encoding='utf-8'
+            )
             file_handler.setFormatter(formatter)
             logger.addHandler(file_handler)
         except Exception as e:
-            logger.warning(f"No se pudo crear archivo de log: {e}")
+            logger.warning(f"No se pudo crear archivo de log con rotación: {e}")
     
     return logger
 
