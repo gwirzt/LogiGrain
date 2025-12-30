@@ -16,6 +16,7 @@
 - **Multipuerto**: el sistema sera multipuerto, ya que la emrpesa tiene mas que una terminal portuaria. por ende todas las acciones deben determinar a que puerto/terminal pertenecen.
 - **Endpoints** para acceder a las funcionalidades del sistema, debera pasar un previo login que valide el usuario y puerto al que pertenece. un usuario puede pertenecer a mas de un puerto.
 - ** Token JWT**: una vez validado el usuario, se le entregara un token JWT que debera ser enviado en cada request para validar su identidad y permisos , enviado dentro de un json body con mas los parametros que se necesiten para cada endpoint y para cada puerto, por ejemplo ingreso de un camion deberia tener el id del puerto al que pertenece el usuario y el camion.
+- **Cada llamada a un endpoint** debera registrar en los logs el usuario que hizo la accion, el puerto, la accion realizada , debe tener el token de seguridad generado en la respuesta del login y si tuvo exito o fracaso.
   
 
 
@@ -63,7 +64,10 @@ User.items = Relationship(back_populates="user", link_model=User_Item_Relation)
 - **Documentación completa**: [logs/README.md](logs/README.md)
 - Toda operación que se produzca en el sistema, login, logout, errores, etc debe quedar registrada en los logs
 
-
+### Sistema de Documentacion
+- **Documentación Swagger automática** en `/docs` generada por FastAPI
+- Incluye descripciones de endpoints, modelos de datos, respuestas esperadas
+- Quiero hagas los readme por temas en la carpeta docs. de esa manera como tengo el API_Endpoints_Documentation.md, quisiera tener el login.md, el de usuarios.md , el de peurtos.md y todo lo que creas que seria necesario para que alguien venga y entienda cada uno de los modulos o funcionalidades que vamos generando
 
 ### Convenciones de Naming
 - **Español para campos de negocio**: `nombre_completo`, `habilitado`, `regimen`  

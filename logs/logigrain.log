@@ -51,3 +51,103 @@
 2025-12-29 19:52:43 - main - INFO - Login exitoso para usuario: operador1
 2025-12-29 19:52:43 - main - INFO - Intento de login para usuario: admin
 2025-12-29 19:52:43 - main - WARNING - Contraseña incorrecta para usuario: admin
+2025-12-30 17:53:08 - main - INFO - Base de datos y tablas creadas
+2025-12-30 17:53:42 - main - INFO - Solicitud token CPE
+2025-12-30 17:53:42 - arca - INFO - Iniciando autenticación ARCA - Tipo: 'CPE', Entorno: ''
+2025-12-30 17:53:42 - arca - INFO - Configuración obtenida: servicio=wscpe, cert=C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt
+2025-12-30 17:53:42 - arca - INFO - Validación de certificados completada
+2025-12-30 17:53:42 - arca - INFO - Creando TRA para servicio: wscpe
+2025-12-30 17:53:42 - arca - INFO - TRA XML generado exitosamente
+2025-12-30 17:53:42 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-30 17:53:42 - arca - INFO - Firmando TRA con OpenSSL CLI (método VFP)
+2025-12-30 17:53:42 - arca - INFO - Usando OpenSSL: C:\pythonDev\LogiGrain\Ssl\openssl.exe
+2025-12-30 17:53:42 - arca - INFO - Escribiendo TRA a: C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml
+2025-12-30 17:53:42 - arca - INFO - Ejecutando: C:\pythonDev\LogiGrain\Ssl\openssl.exe cms -sign -in C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml -out C:\pythonDev\LogiGrain\Ssl\TEMP\MiLoginTicketRequest.xml.cms -signer C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt -inkey C:\pythonDev\LogiGrain\Ssl\cert\MiClavePrivada.key -nodetach -outform PEM
+2025-12-30 17:53:43 - arca - INFO - OpenSSL ejecutado exitosamente
+2025-12-30 17:53:43 - arca - INFO - CMS generado, longitud original: 2399
+2025-12-30 17:53:43 - arca - INFO - CMS limpiado, longitud final: 2324
+2025-12-30 17:53:43 - arca - INFO - TRA firmado exitosamente con CMS
+2025-12-30 17:53:43 - arca - INFO - Llamando WSAA: https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL
+2025-12-30 17:53:43 - arca - INFO - Respuesta WSAA recibida exitosamente
+2025-12-30 17:53:43 - arca - INFO - Token y Sign extraídos exitosamente de respuesta WSAA
+2025-12-30 17:53:43 - arca - INFO - Autenticación ARCA completada exitosamente
+2025-12-30 17:57:47 - main - INFO - Intento de login para usuario: admin
+2025-12-30 17:57:47 - main - INFO - Login exitoso para usuario: admin
+2025-12-30 18:03:31 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:03:57 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:04:09 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:04:26 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:11:20 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:14:02 - main - INFO - Intento de login para usuario: admin
+2025-12-30 18:14:02 - main - INFO - Login exitoso para usuario: admin
+2025-12-30 18:15:10 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:15:10 - arca - INFO - Iniciando autenticación ARCA - Tipo: 'CPE', Entorno: ''
+2025-12-30 18:15:10 - arca - INFO - Configuración obtenida: servicio=wscpe, cert=C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt
+2025-12-30 18:15:10 - arca - INFO - Validación de certificados completada
+2025-12-30 18:15:10 - arca - INFO - Creando TRA para servicio: wscpe
+2025-12-30 18:15:10 - arca - INFO - TRA XML generado exitosamente
+2025-12-30 18:15:10 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-30 18:15:10 - arca - INFO - Firmando TRA con OpenSSL CLI (método VFP)
+2025-12-30 18:15:10 - arca - INFO - Usando OpenSSL: C:\pythonDev\LogiGrain\Ssl\openssl.exe
+2025-12-30 18:15:10 - arca - INFO - Escribiendo TRA a: C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml
+2025-12-30 18:15:10 - arca - INFO - Ejecutando: C:\pythonDev\LogiGrain\Ssl\openssl.exe cms -sign -in C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml -out C:\pythonDev\LogiGrain\Ssl\TEMP\MiLoginTicketRequest.xml.cms -signer C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt -inkey C:\pythonDev\LogiGrain\Ssl\cert\MiClavePrivada.key -nodetach -outform PEM
+2025-12-30 18:15:10 - arca - INFO - OpenSSL ejecutado exitosamente
+2025-12-30 18:15:10 - arca - INFO - CMS generado, longitud original: 2399
+2025-12-30 18:15:10 - arca - INFO - CMS limpiado, longitud final: 2324
+2025-12-30 18:15:10 - arca - INFO - TRA firmado exitosamente con CMS
+2025-12-30 18:15:10 - arca - INFO - Llamando WSAA: https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL
+2025-12-30 18:15:10 - arca - INFO - Respuesta WSAA recibida exitosamente
+2025-12-30 18:15:10 - arca - INFO - Token y Sign extraídos exitosamente de respuesta WSAA
+2025-12-30 18:15:10 - arca - INFO - Autenticación ARCA completada exitosamente
+2025-12-30 18:15:10 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Acción: Token CPE Obtenido, Estado: ÉXITO, Detalles: Token generado exitosamente
+2025-12-30 18:21:05 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:21:16 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:21:30 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:21:50 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:22:45 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:25:09 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:25:29 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:26:54 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:28:08 - main - INFO - Intento de login para usuario: admin
+2025-12-30 18:28:08 - main - INFO - Login exitoso para usuario: admin
+2025-12-30 18:31:00 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:00 - arca - INFO - Iniciando autenticación ARCA - Tipo: 'CPE', Entorno: ''
+2025-12-30 18:31:00 - arca - INFO - Configuración obtenida: servicio=wscpe, cert=C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt
+2025-12-30 18:31:00 - arca - INFO - Validación de certificados completada
+2025-12-30 18:31:00 - arca - INFO - Creando TRA para servicio: wscpe
+2025-12-30 18:31:00 - arca - INFO - TRA XML generado exitosamente
+2025-12-30 18:31:00 - arca - INFO - Firmando TRA con certificados SSL...
+2025-12-30 18:31:00 - arca - INFO - Firmando TRA con OpenSSL CLI (método VFP)
+2025-12-30 18:31:00 - arca - INFO - Usando OpenSSL: C:\pythonDev\LogiGrain\Ssl\openssl.exe
+2025-12-30 18:31:00 - arca - INFO - Escribiendo TRA a: C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml
+2025-12-30 18:31:00 - arca - INFO - Ejecutando: C:\pythonDev\LogiGrain\Ssl\openssl.exe cms -sign -in C:\pythonDev\LogiGrain\Ssl\TEMP\requestTA.xml -out C:\pythonDev\LogiGrain\Ssl\TEMP\MiLoginTicketRequest.xml.cms -signer C:\pythonDev\LogiGrain\Ssl\cert\Nacion1846_1b31e8cd3180840d.crt -inkey C:\pythonDev\LogiGrain\Ssl\cert\MiClavePrivada.key -nodetach -outform PEM
+2025-12-30 18:31:00 - arca - INFO - OpenSSL ejecutado exitosamente
+2025-12-30 18:31:00 - arca - INFO - CMS generado, longitud original: 2399
+2025-12-30 18:31:00 - arca - INFO - CMS limpiado, longitud final: 2324
+2025-12-30 18:31:00 - arca - INFO - TRA firmado exitosamente con CMS
+2025-12-30 18:31:00 - arca - INFO - Llamando WSAA: https://wsaa.afip.gov.ar/ws/services/LoginCms?WSDL
+2025-12-30 18:31:00 - arca - INFO - Respuesta WSAA recibida exitosamente
+2025-12-30 18:31:00 - arca - INFO - Token y Sign extraídos exitosamente de respuesta WSAA
+2025-12-30 18:31:00 - arca - INFO - Autenticación ARCA completada exitosamente
+2025-12-30 18:31:00 - main - INFO - Token ARCA guardado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:00 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Nuevo Solicitado, Estado: ÉXITO, Detalles: Token generado y guardado en cache
+2025-12-30 18:31:19 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:19 - main - INFO - Token ARCA encontrado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:19 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Cache Hit, Estado: ÉXITO, Detalles: Token reutilizado, vence en 479 minutos
+2025-12-30 18:31:21 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:21 - main - INFO - Token ARCA encontrado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:21 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Cache Hit, Estado: ÉXITO, Detalles: Token reutilizado, vence en 479 minutos
+2025-12-30 18:31:23 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:23 - main - INFO - Token ARCA encontrado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:23 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Cache Hit, Estado: ÉXITO, Detalles: Token reutilizado, vence en 479 minutos
+2025-12-30 18:31:24 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:24 - main - INFO - Token ARCA encontrado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:24 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Cache Hit, Estado: ÉXITO, Detalles: Token reutilizado, vence en 479 minutos
+2025-12-30 18:31:29 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:29 - main - INFO - Token ARCA encontrado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:29 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Cache Hit, Estado: ÉXITO, Detalles: Token reutilizado, vence en 479 minutos
+2025-12-30 18:31:29 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Solicitud Token CPE, Estado: ÉXITO
+2025-12-30 18:31:29 - main - INFO - Token ARCA encontrado en cache - Usuario: 1, Puerto: TRP1, Servicio: CPE, Vence: 2025-12-31 05:31:00.710136
+2025-12-30 18:31:29 - main - INFO - ENDPOINT ACCESS - Usuario: admin (ID: 1), Puerto: TRP1, Acción: Token CPE - Cache Hit, Estado: ÉXITO, Detalles: Token reutilizado, vence en 479 minutos
+2025-12-30 18:48:01 - main - INFO - Base de datos y tablas creadas
+2025-12-30 18:48:21 - main - INFO - Base de datos y tablas creadas

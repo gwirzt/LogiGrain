@@ -35,6 +35,9 @@ class Usuario(SQLModel, table=True):
     # Relación con puertos
     puertos: List["UsuarioPuerto"] = Relationship(back_populates="usuario")
     
+    # Relación con tokens ARCA
+    arca_tokens: List["ArcaToken"] = Relationship(back_populates="usuario")
+    
     def set_password(self, password: str) -> None:
         """Hashea y establece la contraseña"""
         self.password_hash = hashlib.sha256(password.encode()).hexdigest()
